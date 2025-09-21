@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bartoo Schedule - Activity Monitor</title>
+    <title>Bartoo Schedule - Activity Monitor & Money Dispenser</title>
     <style>
         * {
             margin: 0;
@@ -55,7 +55,7 @@
         }
 
         .bartoo-animation {
-            font-size: 5rem;
+            font-size: clamp(2rem, 8vw, 5rem);
             font-weight: 900;
             color: var(--white);
             letter-spacing: 0.5rem;
@@ -129,14 +129,14 @@
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
 
         header {
             background-color: var(--white);
             box-shadow: var(--shadow);
-            padding: 20px 0;
-            margin-bottom: 30px;
+            padding: 15px 0;
+            margin-bottom: 20px;
         }
 
         .header-content {
@@ -144,55 +144,130 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
+            padding: 0 15px;
         }
 
         h1 {
             color: var(--primary-color);
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 5vw, 2rem);
             font-weight: 700;
         }
 
         .date-display {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             color: var(--gray);
             font-weight: 500;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive Grid Layouts */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
         .main-content {
             display: grid;
             grid-template-columns: 300px 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .money-dispenser-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
         }
 
         @media (max-width: 768px) {
-            .main-content {
+            .money-dispenser-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 10px 0;
+                margin-bottom: 15px;
+            }
+            
+            .header-content {
+                padding: 0 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         .sidebar {
             background-color: var(--white);
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: var(--shadow);
             height: fit-content;
         }
 
         .sidebar h2 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             color: var(--dark);
         }
 
         .quick-activities {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .quick-activities h3 {
-            font-size: 1rem;
-            margin-bottom: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
             color: var(--gray);
         }
 
@@ -201,9 +276,9 @@
             background-color: var(--light-gray);
             border: none;
             border-radius: 20px;
-            padding: 6px 12px;
-            margin: 0 5px 8px 0;
-            font-size: 0.85rem;
+            padding: 5px 10px;
+            margin: 0 4px 6px 0;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -217,13 +292,13 @@
         .add-activity-form {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
         }
 
         label {
@@ -233,7 +308,7 @@
         }
 
         input, select, textarea {
-            padding: 10px 12px;
+            padding: 8px 10px;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
             font-size: 1rem;
@@ -252,17 +327,17 @@
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .btn-primary {
@@ -289,8 +364,8 @@
         .btn-danger {
             background-color: var(--danger-color);
             color: var(--white);
-            padding: 5px 10px;
-            font-size: 0.875rem;
+            padding: 4px 8px;
+            font-size: 0.8rem;
         }
 
         .btn-danger:hover {
@@ -300,18 +375,42 @@
         .btn-edit {
             background-color: var(--info-color);
             color: var(--white);
-            padding: 5px 10px;
-            font-size: 0.875rem;
+            padding: 4px 8px;
+            font-size: 0.8rem;
         }
 
         .btn-edit:hover {
             background-color: #2563eb;
         }
 
+        .btn-success {
+            background-color: var(--success-color);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: var(--white);
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
         .schedule-container {
             background-color: var(--white);
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: var(--shadow);
             overflow-x: auto;
         }
@@ -320,13 +419,13 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .week-nav-btn {
             background-color: var(--light-gray);
             border: none;
-            padding: 8px 16px;
+            padding: 6px 12px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: 500;
@@ -339,15 +438,15 @@
 
         .schedule-grid {
             display: grid;
-            grid-template-columns: 80px repeat(7, 1fr);
-            min-width: 800px;
+            grid-template-columns: 60px repeat(7, 1fr);
+            min-width: 600px;
         }
 
         .time-slot {
             background-color: var(--light-gray);
-            padding: 10px 5px;
+            padding: 8px 4px;
             text-align: center;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 500;
             color: var(--gray);
             border-bottom: 1px solid #e5e7eb;
@@ -356,9 +455,10 @@
         .day-header {
             background-color: var(--primary-color);
             color: var(--white);
-            padding: 15px 10px;
+            padding: 12px 8px;
             text-align: center;
             font-weight: 600;
+            font-size: 0.9rem;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -369,11 +469,11 @@
         }
 
         .schedule-cell {
-            min-height: 60px;
+            min-height: 50px;
             border: 1px solid #e5e7eb;
             border-top: none;
             border-left: none;
-            padding: 5px;
+            padding: 4px;
             position: relative;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -386,9 +486,9 @@
         .activity-item {
             background-color: var(--white);
             border-radius: 6px;
-            padding: 8px;
-            margin-bottom: 5px;
-            font-size: 0.875rem;
+            padding: 6px;
+            margin-bottom: 4px;
+            font-size: 0.8rem;
             box-shadow: var(--shadow);
             cursor: pointer;
             transition: all 0.3s ease;
@@ -424,19 +524,20 @@
         .activity-title {
             font-weight: 600;
             margin-bottom: 2px;
+            font-size: 0.85rem;
         }
 
         .activity-time {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--gray);
         }
 
         .activity-actions {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 4px;
+            right: 4px;
             display: flex;
-            gap: 5px;
+            gap: 4px;
             opacity: 0;
             transition: opacity 0.3s ease;
         }
@@ -447,14 +548,219 @@
 
         .reminder-badge {
             position: absolute;
-            top: 5px;
-            left: 5px;
+            top: 4px;
+            left: 4px;
             background-color: var(--warning-color);
             color: var(--white);
-            font-size: 0.7rem;
-            padding: 2px 6px;
-            border-radius: 10px;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 8px;
             font-weight: 600;
+        }
+
+        /* Money Dispenser Styles */
+        .budget-card, .dispense-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .budget-card h2, .dispense-card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .budget-display {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .budget-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .budget-item label {
+            font-weight: 500;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .budget-item span {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .budget-item.remaining span {
+            color: var(--success-color);
+        }
+
+        .budget-item.spent span {
+            color: var(--danger-color);
+        }
+
+        .budget-item.carried-forward span {
+            color: var(--info-color);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-fill.warning {
+            background-color: var(--warning-color);
+        }
+
+        .progress-fill.danger {
+            background-color: var(--danger-color);
+        }
+
+        .dispense-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .amount-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .amount-input-group input {
+            flex: 1;
+        }
+
+        .quick-amounts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quick-amount-btn {
+            background-color: var(--light-gray);
+            border: none;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-amount-btn:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .quick-amount-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quick-amount-btn:disabled:hover {
+            background-color: var(--light-gray);
+            color: var(--dark);
+        }
+
+        .history-section {
+            margin-top: 20px;
+        }
+
+        .history-section h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+        }
+
+        .history-item .date {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .history-item .amount {
+            font-weight: 600;
+            color: var(--danger-color);
+        }
+
+        .history-item .budget {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .warning-message {
+            padding: 12px;
+            background-color: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger-color);
+            border-radius: 4px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .warning-message.show {
+            display: block;
+        }
+
+        .warning-message p {
+            margin: 0;
+            color: var(--danger-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .warning-message .message-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .budget-set-message {
+            padding: 12px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success-color);
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .budget-set-message p {
+            margin: 0;
+            color: var(--success-color);
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .modal {
@@ -478,7 +784,7 @@
         .modal-content {
             background-color: var(--white);
             border-radius: 12px;
-            padding: 30px;
+            padding: 25px;
             max-width: 500px;
             width: 90%;
             max-height: 90vh;
@@ -494,7 +800,7 @@
         }
 
         .modal-header h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--dark);
         }
 
@@ -511,17 +817,10 @@
             color: var(--dark);
         }
 
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
         .stat-card {
             background-color: var(--white);
             border-radius: 12px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: var(--shadow);
             text-align: center;
             transition: transform 0.3s ease;
@@ -533,15 +832,15 @@
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary-color);
         }
 
         .stat-label {
             color: var(--gray);
-            font-size: 0.875rem;
-            margin-top: 5px;
+            font-size: 0.85rem;
+            margin-top: 4px;
         }
 
         @keyframes fadeIn {
@@ -566,16 +865,21 @@
             right: 20px;
             background-color: var(--dark);
             color: var(--white);
-            padding: 15px 20px;
+            padding: 12px 18px;
             border-radius: 8px;
             box-shadow: var(--shadow-lg);
             display: none;
             animation: slideUp 0.3s ease;
             z-index: 1001;
+            max-width: 80%;
         }
 
         .toast.show {
             display: block;
+        }
+
+        .toast.error {
+            background-color: var(--danger-color);
         }
 
         @keyframes slideUp {
@@ -592,8 +896,8 @@
         /* Recurring Activity Styles */
         .recurring-activity-form {
             display: none;
-            margin-top: 15px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 12px;
             background-color: var(--light-gray);
             border-radius: 8px;
         }
@@ -604,7 +908,7 @@
 
         .time-range {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
         }
 
@@ -615,14 +919,14 @@
         .days-selector {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+            gap: 6px;
+            margin-top: 8px;
         }
 
         .day-checkbox {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .day-checkbox input[type="checkbox"] {
@@ -633,20 +937,21 @@
         .day-checkbox label {
             margin: 0;
             cursor: pointer;
+            font-size: 0.85rem;
         }
 
         .form-toggle {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .toggle-switch {
             position: relative;
             display: inline-block;
-            width: 50px;
-            height: 24px;
+            width: 44px;
+            height: 22px;
         }
 
         .toggle-switch input {
@@ -664,7 +969,7 @@
             bottom: 0;
             background-color: #ccc;
             transition: .4s;
-            border-radius: 24px;
+            border-radius: 22px;
         }
 
         .toggle-slider:before {
@@ -672,8 +977,8 @@
             content: "";
             height: 16px;
             width: 16px;
-            left: 4px;
-            bottom: 4px;
+            left: 3px;
+            bottom: 3px;
             background-color: white;
             transition: .4s;
             border-radius: 50%;
@@ -684,7 +989,7 @@
         }
 
         input:checked + .toggle-slider:before {
-            transform: translateX(26px);
+            transform: translateX(22px);
         }
 
         /* Notification permission banner */
@@ -695,14 +1000,15 @@
             transform: translateX(-50%);
             background-color: var(--info-color);
             color: var(--white);
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 8px;
             box-shadow: var(--shadow-lg);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             z-index: 1002;
             animation: slideDown 0.3s ease;
+            max-width: 90%;
         }
 
         .notification-banner.hidden {
@@ -718,6 +1024,11 @@
                 transform: translate(-50%, 0);
                 opacity: 1;
             }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -758,164 +1069,263 @@
         </header>
 
         <div class="container">
-            <div class="stats-container">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalActivities">0</div>
-                    <div class="stat-label">Total Activities</div>
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('schedule')">Schedule</div>
+                <div class="tab" onclick="switchTab('money')">Money Dispenser</div>
+            </div>
+
+            <!-- Schedule Tab Content -->
+            <div id="scheduleTab" class="tab-content active">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalActivities">0</div>
+                        <div class="stat-label">Total Activities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="todayActivities">0</div>
+                        <div class="stat-label">Today's Activities</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="weekActivities">0</div>
+                        <div class="stat-label">This Week</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="completedActivities">0</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="todayActivities">0</div>
-                    <div class="stat-label">Today's Activities</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="weekActivities">0</div>
-                    <div class="stat-label">This Week</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value" id="completedActivities">0</div>
-                    <div class="stat-label">Completed</div>
+
+                <div class="main-content">
+                    <aside class="sidebar">
+                        <h2>Add New Activity</h2>
+                        
+                        <div class="quick-activities">
+                            <h3>Quick Add:</h3>
+                            <button class="quick-activity-btn" onclick="autofillActivity('morningRun')">Morning Run</button>
+                            <button class="quick-activity-btn" onclick="autofillActivity('workout')">Workout</button>
+                            <button class="quick-activity-btn" onclick="autofillActivity('meeting')">Meeting</button>
+                            <button class="quick-activity-btn" onclick="autofillActivity('lunch')">Lunch Break</button>
+                            <button class="quick-activity-btn" onclick="autofillActivity('meditation')">Meditation</button>
+                            <button class="quick-activity-btn" onclick="autofillActivity('reading')">Reading</button>
+                            <button class="quick-activity-btn" onclick="autofillActivity('work')">Work Hours</button>
+                        </div>
+                        
+                        <form class="add-activity-form" id="activityForm">
+                            <div class="form-toggle">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="recurringToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <label for="recurringToggle">Recurring Activity</label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="activityTitle">Activity Title</label>
+                                <input type="text" id="activityTitle" required placeholder="Enter activity title">
+                            </div>
+                            
+                            <div id="singleActivityForm">
+                                <div class="form-group">
+                                    <label for="activityDate">Date</label>
+                                    <input type="date" id="activityDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="activityTime">Time</label>
+                                    <input type="time" id="activityTime" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="activityDuration">Duration (minutes)</label>
+                                    <input type="number" id="activityDuration" min="15" step="15" value="60" required>
+                                </div>
+                            </div>
+                            
+                            <div class="recurring-activity-form" id="recurringActivityForm">
+                                <div class="form-group">
+                                    <label>Time Range</label>
+                                    <div class="time-range">
+                                        <input type="time" id="startTime" required>
+                                        <span>to</span>
+                                        <input type="time" id="endTime" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Days of the Week</label>
+                                    <div class="days-selector">
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="monday" value="1">
+                                            <label for="monday">Mon</label>
+                                        </div>
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="tuesday" value="2">
+                                            <label for="tuesday">Tue</label>
+                                        </div>
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="wednesday" value="3">
+                                            <label for="wednesday">Wed</label>
+                                        </div>
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="thursday" value="4">
+                                            <label for="thursday">Thu</label>
+                                        </div>
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="friday" value="5">
+                                            <label for="friday">Fri</label>
+                                        </div>
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="saturday" value="6">
+                                            <label for="saturday">Sat</label>
+                                        </div>
+                                        <div class="day-checkbox">
+                                            <input type="checkbox" id="sunday" value="0">
+                                            <label for="sunday">Sun</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="recurringStartDate">Start Date</label>
+                                    <input type="date" id="recurringStartDate" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="recurringEndDate">End Date (Optional)</label>
+                                    <input type="date" id="recurringEndDate">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="activityReminder">Remind me (minutes before)</label>
+                                <select id="activityReminder">
+                                    <option value="">No reminder</option>
+                                    <option value="5">5 minutes</option>
+                                    <option value="10">10 minutes</option>
+                                    <option value="15">15 minutes</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="60">1 hour</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="activityCategory">Category</label>
+                                <select id="activityCategory" required>
+                                    <option value="work">Work</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="health">Health</option>
+                                    <option value="leisure">Leisure</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="activityDescription">Description</label>
+                                <textarea id="activityDescription" placeholder="Add description (optional)"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span>➕</span> Add Activity
+                            </button>
+                        </form>
+                    </aside>
+
+                    <main class="schedule-container">
+                        <div class="week-navigation">
+                            <button class="week-nav-btn" id="prevWeek">← Previous Week</button>
+                            <h2 id="weekDisplay"></h2>
+                            <button class="week-nav-btn" id="nextWeek">Next Week →</button>
+                        </div>
+                        <div class="schedule-grid" id="scheduleGrid"></div>
+                    </main>
                 </div>
             </div>
 
-            <div class="main-content">
-                <aside class="sidebar">
-                    <h2>Add New Activity</h2>
-                    
-                    <div class="quick-activities">
-                        <h3>Quick Add:</h3>
-                        <button class="quick-activity-btn" onclick="autofillActivity('morningRun')">Morning Run</button>
-                        <button class="quick-activity-btn" onclick="autofillActivity('workout')">Workout</button>
-                        <button class="quick-activity-btn" onclick="autofillActivity('meeting')">Meeting</button>
-                        <button class="quick-activity-btn" onclick="autofillActivity('lunch')">Lunch Break</button>
-                        <button class="quick-activity-btn" onclick="autofillActivity('meditation')">Meditation</button>
-                        <button class="quick-activity-btn" onclick="autofillActivity('reading')">Reading</button>
-                        <button class="quick-activity-btn" onclick="autofillActivity('work')">Work Hours</button>
+            <!-- Money Dispenser Tab Content -->
+            <div id="moneyTab" class="tab-content">
+                <div class="money-dispenser-container">
+                    <div class="budget-card">
+                        <h2>Daily Budget</h2>
+                        
+                        <div id="budgetFormContainer">
+                            <form id="budgetForm">
+                                <div class="form-group">
+                                    <label for="budgetInput">Set Daily Budget ($)</label>
+                                    <input type="number" id="budgetInput" min="0" step="0.01" placeholder="Enter daily budget" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Set Budget</button>
+                            </form>
+                        </div>
+                        
+                        <div id="budgetDisplayContainer" class="hidden">
+                            <div class="budget-set-message">
+                                <p>✓ Daily budget has been set and cannot be changed</p>
+                            </div>
+                        </div>
+                        
+                        <div class="budget-display">
+                            <div class="budget-item">
+                                <label>Daily Budget:</label>
+                                <span id="dailyBudget">$0.00</span>
+                            </div>
+                            <div class="budget-item carried-forward">
+                                <label>Carried Forward:</label>
+                                <span id="carriedForward">$0.00</span>
+                            </div>
+                            <div class="budget-item">
+                                <label>Total Available:</label>
+                                <span id="totalAvailable">$0.00</span>
+                            </div>
+                            <div class="budget-item spent">
+                                <label>Amount Spent:</label>
+                                <span id="amountSpent">$0.00</span>
+                            </div>
+                            <div class="budget-item remaining">
+                                <label>Remaining:</label>
+                                <span id="remainingAmount">$0.00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="budgetProgress"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-message" id="budgetWarning">
+                            <p class="message-title">Budget Exceeded!</p>
+                            <p>You have exceeded your daily budget. Please spend wisely.</p>
+                        </div>
                     </div>
                     
-                    <form class="add-activity-form" id="activityForm">
-                        <div class="form-toggle">
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="recurringToggle">
-                                <span class="toggle-slider"></span>
-                            </label>
-                            <label for="recurringToggle">Recurring Activity</label>
-                        </div>
+                    <div class="dispense-card">
+                        <h2>Dispense Money</h2>
                         
-                        <div class="form-group">
-                            <label for="activityTitle">Activity Title</label>
-                            <input type="text" id="activityTitle" required placeholder="Enter activity title">
-                        </div>
-                        
-                        <div id="singleActivityForm">
+                        <form class="dispense-form" id="dispenseForm">
                             <div class="form-group">
-                                <label for="activityDate">Date</label>
-                                <input type="date" id="activityDate" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="activityTime">Time</label>
-                                <input type="time" id="activityTime" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="activityDuration">Duration (minutes)</label>
-                                <input type="number" id="activityDuration" min="15" step="15" value="60" required>
-                            </div>
-                        </div>
-                        
-                        <div class="recurring-activity-form" id="recurringActivityForm">
-                            <div class="form-group">
-                                <label>Time Range</label>
-                                <div class="time-range">
-                                    <input type="time" id="startTime" required>
-                                    <span>to</span>
-                                    <input type="time" id="endTime" required>
+                                <label>Amount to Dispense ($)</label>
+                                <div class="amount-input-group">
+                                    <input type="number" id="dispenseAmount" min="0" step="0.01" placeholder="Enter amount" required>
+                                    <button type="submit" class="btn btn-success" id="dispenseBtn">Dispense</button>
                                 </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label>Days of the Week</label>
-                                <div class="days-selector">
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="monday" value="1">
-                                        <label for="monday">Mon</label>
-                                    </div>
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="tuesday" value="2">
-                                        <label for="tuesday">Tue</label>
-                                    </div>
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="wednesday" value="3">
-                                        <label for="wednesday">Wed</label>
-                                    </div>
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="thursday" value="4">
-                                        <label for="thursday">Thu</label>
-                                    </div>
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="friday" value="5">
-                                        <label for="friday">Fri</label>
-                                    </div>
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="saturday" value="6">
-                                        <label for="saturday">Sat</label>
-                                    </div>
-                                    <div class="day-checkbox">
-                                        <input type="checkbox" id="sunday" value="0">
-                                        <label for="sunday">Sun</label>
-                                    </div>
-                                </div>
+                            <div class="quick-amounts">
+                                <button type="button" class="quick-amount-btn" onclick="quickDispense(5)">$5</button>
+                                <button type="button" class="quick-amount-btn" onclick="quickDispense(10)">$10</button>
+                                <button type="button" class="quick-amount-btn" onclick="quickDispense(20)">$20</button>
+                                <button type="button" class="quick-amount-btn" onclick="quickDispense(50)">$50</button>
+                                <button type="button" class="quick-amount-btn" onclick="quickDispense(100)">$100</button>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="recurringStartDate">Start Date</label>
-                                <input type="date" id="recurringStartDate" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="recurringEndDate">End Date (Optional)</label>
-                                <input type="date" id="recurringEndDate">
-                            </div>
+                        </form>
+                        
+                        <div class="warning-message" id="dispenseWarning">
+                            <p class="message-title">Insufficient Funds!</p>
+                            <p>You cannot dispense this amount as it exceeds your remaining budget of <span id="warningRemaining">$0.00</span>.</p>
+                            <p style="margin-top: 8px;">Please reduce the amount.</p>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="activityReminder">Remind me (minutes before)</label>
-                            <select id="activityReminder">
-                                <option value="">No reminder</option>
-                                <option value="5">5 minutes</option>
-                                <option value="10">10 minutes</option>
-                                <option value="15">15 minutes</option>
-                                <option value="30">30 minutes</option>
-                                <option value="60">1 hour</option>
-                            </select>
+                        <div class="history-section">
+                            <h3>Recent Transactions</h3>
+                            <div class="history-list" id="transactionHistory">
+                                <!-- History items will be added here -->
+                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="activityCategory">Category</label>
-                            <select id="activityCategory" required>
-                                <option value="work">Work</option>
-                                <option value="personal">Personal</option>
-                                <option value="health">Health</option>
-                                <option value="leisure">Leisure</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="activityDescription">Description</label>
-                            <textarea id="activityDescription" placeholder="Add description (optional)"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span>➕</span> Add Activity
-                        </button>
-                    </form>
-                </aside>
-
-                <main class="schedule-container">
-                    <div class="week-navigation">
-                        <button class="week-nav-btn" id="prevWeek">← Previous Week</button>
-                        <h2 id="weekDisplay"></h2>
-                        <button class="week-nav-btn" id="nextWeek">Next Week →</button>
                     </div>
-                    <div class="schedule-grid" id="scheduleGrid"></div>
-                </main>
+                </div>
             </div>
         </div>
     </div>
@@ -975,6 +1385,11 @@
         let editingActivity = null;
         let notificationPermission = localStorage.getItem('notificationPermission') === 'granted';
         let reminderInterval;
+        
+        // Money dispenser variables
+        let dailyBudget = parseFloat(localStorage.getItem('dailyBudget')) || 0;
+        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+        let budgetSet = localStorage.getItem('budgetSet') === 'true';
 
         // Activity templates
         const activityTemplates = {
@@ -1063,6 +1478,12 @@
             updateStats();
             setupEventListeners();
             
+            // Initialize money dispenser
+            updateMoneyDispenser();
+            renderTransactionHistory();
+            updateQuickAmountButtons();
+            setupBudgetUI();
+            
             // Set today's date as default
             document.getElementById('activityDate').valueAsDate = new Date();
             document.getElementById('recurringStartDate').valueAsDate = new Date();
@@ -1100,6 +1521,10 @@
             // Form submission
             document.getElementById('activityForm').addEventListener('submit', handleAddActivity);
             document.getElementById('editForm').addEventListener('submit', handleEditActivity);
+            
+            // Money dispenser forms
+            document.getElementById('budgetForm').addEventListener('submit', handleSetBudget);
+            document.getElementById('dispenseForm').addEventListener('submit', handleDispenseMoney);
 
             // Week navigation
             document.getElementById('prevWeek').addEventListener('click', () => {
@@ -1127,6 +1552,28 @@
                     singleForm.style.display = 'block';
                 }
             });
+        }
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            if (tabName === 'schedule') {
+                document.getElementById('scheduleTab').classList.add('active');
+            } else if (tabName === 'money') {
+                document.getElementById('moneyTab').classList.add('active');
+                updateMoneyDispenser();
+                renderTransactionHistory();
+                updateQuickAmountButtons();
+            }
         }
 
         function autofillActivity(templateName) {
@@ -1237,7 +1684,7 @@
             });
             
             if (selectedDays.length === 0) {
-                showToast('Please select at least one day of the week');
+                showToast('Please select at least one day of the week', true);
                 return;
             }
             
@@ -1500,10 +1947,16 @@
                    date.getFullYear() === today.getFullYear();
         }
 
-        function showToast(message) {
+        function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
+            
+            if (isError) {
+                toast.classList.add('error');
+            } else {
+                toast.classList.remove('error');
+            }
             
             setTimeout(() => {
                 toast.classList.remove('show');
@@ -1596,6 +2049,216 @@
                     notification.close();
                 };
             }
+        }
+
+        // Money Dispenser Functions
+        function setupBudgetUI() {
+            const budgetFormContainer = document.getElementById('budgetFormContainer');
+            const budgetDisplayContainer = document.getElementById('budgetDisplayContainer');
+            
+            if (budgetSet) {
+                budgetFormContainer.classList.add('hidden');
+                budgetDisplayContainer.classList.remove('hidden');
+            } else {
+                budgetFormContainer.classList.remove('hidden');
+                budgetDisplayContainer.classList.add('hidden');
+            }
+        }
+
+        function handleSetBudget(e) {
+            e.preventDefault();
+            
+            const budgetInput = document.getElementById('budgetInput');
+            const budget = parseFloat(budgetInput.value);
+            
+            if (isNaN(budget) || budget < 0) {
+                showToast('Please enter a valid budget amount', true);
+                return;
+            }
+            
+            dailyBudget = budget;
+            budgetSet = true;
+            localStorage.setItem('dailyBudget', dailyBudget);
+            localStorage.setItem('budgetSet', 'true');
+            
+            setupBudgetUI();
+            updateMoneyDispenser();
+            updateQuickAmountButtons();
+            showToast('Daily budget set successfully!');
+            
+            budgetInput.value = '';
+        }
+
+        function handleDispenseMoney(e) {
+            e.preventDefault();
+            
+            const amountInput = document.getElementById('dispenseAmount');
+            const amount = parseFloat(amountInput.value);
+            
+            if (isNaN(amount) || amount <= 0) {
+                showToast('Please enter a valid amount', true);
+                return;
+            }
+            
+            const totalAvailable = getTotalAvailable();
+            const remaining = totalAvailable - getTodaySpent();
+            
+            if (amount > remaining) {
+                // Show insufficient funds warning
+                document.getElementById('warningRemaining').textContent = `$${remaining.toFixed(2)}`;
+                document.getElementById('dispenseWarning').classList.add('show');
+                return;
+            }
+            
+            // Process the transaction
+            processTransaction(amount);
+            amountInput.value = '';
+        }
+
+        function processTransaction(amount) {
+            const transaction = {
+                id: Date.now(),
+                amount: amount,
+                date: new Date().toISOString().split('T')[0],
+                timestamp: new Date().toISOString()
+            };
+            
+            transactions.push(transaction);
+            localStorage.setItem('transactions', JSON.stringify(transactions));
+            
+            updateMoneyDispenser();
+            renderTransactionHistory();
+            updateQuickAmountButtons();
+            
+            // Hide warning if shown
+            document.getElementById('dispenseWarning').classList.remove('show');
+            
+            showToast(`Dispensed $${amount.toFixed(2)}`);
+        }
+
+        function quickDispense(amount) {
+            const totalAvailable = getTotalAvailable();
+            const remaining = totalAvailable - getTodaySpent();
+            
+            if (amount > remaining) {
+                showToast(`Cannot dispense $${amount.toFixed(2)}. Remaining budget is $${remaining.toFixed(2)}`, true);
+                return;
+            }
+            
+            document.getElementById('dispenseAmount').value = amount;
+            handleDispenseMoney(new Event('submit'));
+        }
+
+        function updateQuickAmountButtons() {
+            const totalAvailable = getTotalAvailable();
+            const remaining = totalAvailable - getTodaySpent();
+            
+            const quickAmountBtns = document.querySelectorAll('.quick-amount-btn');
+            quickAmountBtns.forEach(btn => {
+                const amount = parseFloat(btn.textContent.replace('$', ''));
+                if (amount > remaining) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+        }
+
+        function getTodaySpent() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayTransactions = transactions.filter(t => t.date === today);
+            return todayTransactions.reduce((sum, transaction) => sum + transaction.amount, 0);
+        }
+
+        function getYesterdaySpent() {
+            const yesterday = new Date();
+            yesterday.setDate(yesterday.getDate() - 1);
+            const yesterdayStr = yesterday.toISOString().split('T')[0];
+            
+            const yesterdayTransactions = transactions.filter(t => t.date === yesterdayStr);
+            return yesterdayTransactions.reduce((sum, transaction) => sum + transaction.amount, 0);
+        }
+
+        function getCarriedForward() {
+            if (!budgetSet) return 0;
+            
+            const yesterdayBudget = dailyBudget;
+            const yesterdaySpent = getYesterdaySpent();
+            const yesterdayRemaining = yesterdayBudget - yesterdaySpent;
+            
+            // Only carry forward if there was remaining budget from yesterday
+            return Math.max(0, yesterdayRemaining);
+        }
+
+        function getTotalAvailable() {
+            const carriedForward = getCarriedForward();
+            return dailyBudget + carriedForward;
+        }
+
+        function updateMoneyDispenser() {
+            const todaySpent = getTodaySpent();
+            const carriedForward = getCarriedForward();
+            const totalAvailable = getTotalAvailable();
+            const remaining = totalAvailable - todaySpent;
+            
+            document.getElementById('dailyBudget').textContent = `$${dailyBudget.toFixed(2)}`;
+            document.getElementById('carriedForward').textContent = `$${carriedForward.toFixed(2)}`;
+            document.getElementById('totalAvailable').textContent = `$${totalAvailable.toFixed(2)}`;
+            document.getElementById('amountSpent').textContent = `$${todaySpent.toFixed(2)}`;
+            document.getElementById('remainingAmount').textContent = `$${remaining.toFixed(2)}`;
+            
+            // Update progress bar
+            const progressBar = document.getElementById('budgetProgress');
+            const percentage = totalAvailable > 0 ? (todaySpent / totalAvailable) * 100 : 0;
+            progressBar.style.width = `${Math.min(percentage, 100)}%`;
+            
+            // Update progress bar color based on percentage
+            progressBar.classList.remove('warning', 'danger');
+            if (percentage >= 100) {
+                progressBar.classList.add('danger');
+                document.getElementById('budgetWarning').classList.add('show');
+            } else if (percentage >= 80) {
+                progressBar.classList.add('warning');
+            } else {
+                document.getElementById('budgetWarning').classList.remove('show');
+            }
+        }
+
+        function renderTransactionHistory() {
+            const historyContainer = document.getElementById('transactionHistory');
+            historyContainer.innerHTML = '';
+            
+            // Sort transactions by timestamp (newest first)
+            const sortedTransactions = [...transactions].sort((a, b) => 
+                new Date(b.timestamp) - new Date(a.timestamp)
+            );
+            
+            // Show last 10 transactions
+            const recentTransactions = sortedTransactions.slice(0, 10);
+            
+            if (recentTransactions.length === 0) {
+                historyContainer.innerHTML = '<p style="text-align: center; color: var(--gray);">No transactions yet</p>';
+                return;
+            }
+            
+            recentTransactions.forEach(transaction => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                
+                const date = new Date(transaction.timestamp);
+                const formattedDate = date.toLocaleDateString();
+                const formattedTime = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                item.innerHTML = `
+                    <div>
+                        <div>${formattedDate}</div>
+                        <div class="date">${formattedTime}</div>
+                    </div>
+                    <div class="amount">$${transaction.amount.toFixed(2)}</div>
+                `;
+                
+                historyContainer.appendChild(item);
+            });
         }
 
         // Close modal when clicking outside
